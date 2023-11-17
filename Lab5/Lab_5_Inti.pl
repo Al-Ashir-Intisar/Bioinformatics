@@ -86,7 +86,7 @@ sub check_ORF{
 }
 
 my $size = 1000;
-my $iteration = 1000;
+my $iteration = 100000;
 my @array_sequence = &generate_dna($size, $iteration);
 my @array_complementary_sequence;
 my $occurance_count = 0;
