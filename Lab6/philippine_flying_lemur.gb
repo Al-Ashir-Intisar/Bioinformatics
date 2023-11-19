@@ -1,0 +1,57 @@
+LOCUS       CM050047               16714 bp    DNA     circular CON 28-DEC-2022
+DEFINITION  Cynocephalus volans isolate mCynVol1 mitochondrion, complete
+            sequence, whole genome shotgun sequence.
+ACCESSION   CM050047 JAPWCP010000000
+VERSION     CM050047.1
+DBLINK      BioProject: PRJNA911844
+            BioSample: SAMN32206947
+KEYWORDS    WGS.
+SOURCE      mitochondrion Cynocephalus volans (Philippine flying lemur)
+  ORGANISM  Cynocephalus volans
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Dermoptera; Cynocephalidae;
+            Cynocephalus.
+REFERENCE   1  (bases 1 to 16714)
+  AUTHORS   Grew,F., Ferguson,A.W., Helderman,P.D., Balacco,J., Tilley,T.,
+            Abueg,L., O'Tool,B., Mountcastle,J., Tracey,A., Sims,Y.,
+            Formenti,G., Fedrigo,O. and Jarvis,E.D.
+  TITLE     Cynocephalus volans (Philippine flying lemur) genome mCynVol1,
+            primary haplotype
+  JOURNAL   Unpublished
+REFERENCE   2  (bases 1 to 16714)
+  AUTHORS   Grew,F., Ferguson,A.W., Helderman,P.D., Balacco,J., Tilley,T.,
+            Abueg,L., O'Tool,B., Mountcastle,J., Tracey,A., Sims,Y.,
+            Formenti,G., Fedrigo,O. and Jarvis,E.D.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (14-DEC-2022) Vertebrate Genomes Project, G10K, 1230 York
+            Avenue, New York, NY 10065, USA
+COMMENT     ##Genome-Assembly-Data-START##
+            Assembly Date          :: 20-MAY-2022
+            Assembly Method        :: HiFiasm v. 0.16.1 + galaxy2; purge_dups
+                                      v. 1.2.5 + galaxy4; salsa v. 2.3 +
+                                      galaxy2
+            Assembly Name          :: mCynVol1.pri
+            Diploid                :: Principal Haplotype
+            Genome Representation  :: Full
+            Expected Final Version :: No
+            Genome Coverage        :: 31.83x
+            Sequencing Technology  :: PacBio Sequel II HiFi; Arima Hi-C v2
+            ##Genome-Assembly-Data-END##
+FEATURES             Location/Qualifiers
+     source          1..16714
+                     /organism="Cynocephalus volans"
+                     /organelle="mitochondrion"
+                     /mol_type="genomic DNA"
+                     /isolate="mCynVol1"
+                     /db_xref="taxon:110931"
+                     /sex="male"
+                     /tissue_type="heart, kidney"
+                     /dev_stage="adult"
+                     /country="Philippines: Leyte Province, Leyte Island,
+                     Baybay"
+                     /lat_lon="10.75 N 124.8 E"
+                     /collection_date="1987-04-06"
+                     /collected_by="Paul D. Helderman"
+CONTIG      join(JAPWCP010000001.1:1..16714)
+//
+

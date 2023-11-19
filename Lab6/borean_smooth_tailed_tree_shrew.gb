@@ -1,0 +1,71 @@
+LOCUS       JF795293                1646 bp    DNA     linear   MAM 26-JUL-2011
+DEFINITION  Dendrogale melanura voucher USNM:MAMM:292552 tRNA-Val gene, partial
+            sequence; and 16S ribosomal RNA gene, complete sequence;
+            mitochondrial.
+ACCESSION   JF795293
+VERSION     JF795293.1
+KEYWORDS    .
+SOURCE      mitochondrion Dendrogale melanura (Bornean smooth-tailed tree
+            shrew)
+  ORGANISM  Dendrogale melanura
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Scandentia; Tupaiidae;
+            Dendrogale.
+REFERENCE   1  (bases 1 to 1646)
+  AUTHORS   Roberts,T.E., Lanier,H.C., Sargis,E.J. and Olson,L.E.
+  TITLE     Molecular phylogeny of treeshrews (Mammalia: Scandentia) and the
+            timescale of diversification in Southeast Asia
+  JOURNAL   Mol. Phylogenet. Evol. 60 (3), 358-372 (2011)
+   PUBMED   21565274
+REFERENCE   2  (bases 1 to 1646)
+  AUTHORS   Roberts,T.E., Lanier,H.C., Sargis,E.J. and Olson,L.E.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (08-APR-2011) University of Alaska Museum, 907 Yukon
+            Drive, Fairbanks, AK 99775, USA
+FEATURES             Location/Qualifiers
+     source          1..1646
+                     /organism="Dendrogale melanura"
+                     /organelle="mitochondrion"
+                     /mol_type="genomic DNA"
+                     /specimen_voucher="USNM:MAMM:292552"
+                     /db_xref="taxon:246553"
+                     /country="Malaysia: Sabah"
+     tRNA            <1..>33
+                     /product="tRNA-Val"
+     gap             34..209
+                     /estimated_length=176
+     rRNA            210..1646
+                     /product="16S ribosomal RNA"
+     gap             1129..1235
+                     /estimated_length=107
+ORIGIN      
+        1 caaaacgtag cttaaacact aaagcacctg gctnnnnnnn nnnnnnnnnn nnnnnnnnnn
+       61 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      121 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      181 nnnnnnnnnn nnnnnnnnnn nnnnnnnnna acatcaacag tacaaaaaag caaagattaa
+      241 cccttgtacc ttttgcataa tgggttagct agaataaact tagcaaagag acctttagtt
+      301 aagcaccccg aaaccagacg agctacttgt gaacagctga ccgagcgaac tcgtctatgt
+      361 agcaaaatag tgagaagatt tacaagtaga ggtgaaaagc caaacgagcc tggtgatagc
+      421 tggttgtcca gaacagaatt ttagttcaat tttaaattta ccataagagt accaaatcta
+      481 aatgtaaatt taaatattaa tctaaggggg tacagctcct tagaattaag gaaaagcctt
+      541 atttagagag ttaacaaccg cgaactgagt ccatagttgg cctaaaagca gccatcaata
+      601 aagaaagcgt taaagctcaa cacaacacaa caacttaata ccaaacagca gtaacaactc
+      661 ctaaaccata actggactaa tctatataac ttatagatgc atcaatgcta acattagtaa
+      721 caagaaataa ttctccctgc acaagcttat atcagaccgg ctgcccgctg atagttaaca
+      781 acataataag cataatccac ccacacgaaa cttattacca actattgtta acccaacaca
+      841 ggagtgcacc accttaaggg aaagattcta aggagtaaaa ggaactcggc aaacacaaac
+      901 cccgcctgtt taccaaaaac atcacctcta gcattaccag tattagaggc actgcctgcc
+      961 cagtgactta gttaaacggc cgcggtatcc tgaccgtgca aaggtagcat aatcatttgt
+     1021 tccttaaatg gggacttgta tgaacggcca cacgagggtt taactgtctc ttactcccaa
+     1081 tcagtgaaat tgacctttcc gtgaagaggc ggaaatataa aaataagann nnnnnnnnnn
+     1141 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+     1201 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnctcgg agaagaaaaa atcctccgaa
+     1261 agactatgta gctaagacaa acaagtctaa gccacgtact ctcaattgac ccaacatagt
+     1321 tgatcaatga aacaagttac cctagggata acagcgcaat cctattccag agtccatatc
+     1381 gacaataggg tttacgacct cgatgttgga tcaggacatc ccaatggtgc agccgctatt
+     1441 aatggttcgt ttgttcaacg attaaagtcc tacgtgatct gagttcagac cggagtaatc
+     1501 caggtcggtt tctatctatt agacatttcc cccagtacga aaggacaagg gaaatgaggc
+     1561 caatctaaca tagatgcctt caacataata gatgaaccca tcttaatcta gtaagttacc
+     1621 tacaaccctg cccaagaaca gggctt
+//
+

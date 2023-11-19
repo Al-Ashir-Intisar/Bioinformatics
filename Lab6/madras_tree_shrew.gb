@@ -1,0 +1,67 @@
+LOCUS       JF795296                1630 bp    DNA     linear   MAM 26-JUL-2011
+DEFINITION  Anathana ellioti voucher FMNH:MAMM:91265 tRNA-Val and 16S ribosomal
+            RNA genes, complete sequence; mitochondrial.
+ACCESSION   JF795296
+VERSION     JF795296.1
+KEYWORDS    .
+SOURCE      mitochondrion Anathana ellioti (Madras tree shrew)
+  ORGANISM  Anathana ellioti
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Scandentia; Tupaiidae;
+            Anathana.
+REFERENCE   1  (bases 1 to 1630)
+  AUTHORS   Roberts,T.E., Lanier,H.C., Sargis,E.J. and Olson,L.E.
+  TITLE     Molecular phylogeny of treeshrews (Mammalia: Scandentia) and the
+            timescale of diversification in Southeast Asia
+  JOURNAL   Mol. Phylogenet. Evol. 60 (3), 358-372 (2011)
+   PUBMED   21565274
+REFERENCE   2  (bases 1 to 1630)
+  AUTHORS   Roberts,T.E., Lanier,H.C., Sargis,E.J. and Olson,L.E.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (08-APR-2011) University of Alaska Museum, 907 Yukon
+            Drive, Fairbanks, AK 99775, USA
+FEATURES             Location/Qualifiers
+     source          1..1630
+                     /organism="Anathana ellioti"
+                     /organelle="mitochondrion"
+                     /mol_type="genomic DNA"
+                     /specimen_voucher="FMNH:MAMM:91265"
+                     /db_xref="taxon:320340"
+                     /country="India: Madhya Pradesh"
+     tRNA            1..69
+                     /product="tRNA-Val"
+     rRNA            70..1630
+                     /product="16S ribosomal RNA"
+     gap             239..749
+                     /estimated_length=511
+ORIGIN      
+        1 caaaacgtag cttaacataa agcacctgac ttacactcag gagatacccc ttgcacgaga
+       61 tcgttttgaa ccgactctag cccaaccaca ccttaaccca actattactc taacataagc
+      121 taaaacattt aatcacaagg aagtatagga gatagaaacc taactaaggc gctatagaga
+      181 tagtaccgta agggaaagat gaaagatgca tcaacagtga gaaaaagcaa agattaacnn
+      241 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      301 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      361 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      421 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      481 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      541 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      601 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      661 nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn nnnnnnnnnn
+      721 nnnnnnnnnn nnnnnnnnnn nnnnnnnnng atgcccactg atagttaaca attttataaa
+      781 agctaagcca ccctcaagac atttattaat caaattgttg atccaacacc ggagtgcaaa
+      841 ttaaagggaa agattaaaag gagtaaaagg aactcggcaa acacaaaccc cgcctgttta
+      901 ccaaaaacat cacctctagc ataaaaagta ttagaggcac tgcctgccca gtgacataag
+      961 ttaaacggcc gcggtatcct gaccgtgcaa aggtagcata atcacttgtt tcttaattag
+     1021 ggacttgtat gaatggccac acgagggttt aactgtctct tactcccaat cagtgaaatt
+     1081 gaccttcccg tgaagaggcg ggaataaacc aataagacga gaagacccta tggagcttta
+     1141 attaactagc tcacatataa ctaaataaaa cccctcggga ataacaaaca tatcctgagc
+     1201 tagcaatttc ggttggggtg acctcggaga ataaaaaatc ctccgaaaat gcaagccgag
+     1261 acattacaag tcaaagcgat atactaataa ttgatccaac aagttgatca acggaatcag
+     1321 ttaccctagg gataacagcg caatcctatt ctagagtcca tatcgacaat agggtttacg
+     1381 acctcgatgt tggatcagga catcccaatg gtgtagcagc tattaatggt tcgtttgttc
+     1441 aacgattaaa gtcctacgtg atctgagttc agaccggagt aatccaggtc ggtttctatc
+     1501 tattagatgc tctccccagt acgaaaggac aagaagagca aggccaactc accaagcgcg
+     1561 cctttaactt aatagatgaa cctatcttaa tctagtaagt tatccacaac cctgcccaag
+     1621 agcagggctt
+//
+

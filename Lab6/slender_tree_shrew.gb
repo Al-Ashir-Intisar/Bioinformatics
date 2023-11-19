@@ -1,0 +1,65 @@
+LOCUS       JF795309                1632 bp    DNA     linear   MAM 26-JUL-2011
+DEFINITION  Tupaia gracilis voucher USNZ 109023 tRNA-Val and 16S ribosomal RNA
+            genes, complete sequence; mitochondrial.
+ACCESSION   JF795309
+VERSION     JF795309.1
+KEYWORDS    .
+SOURCE      mitochondrion Tupaia gracilis (slender tree shrew)
+  ORGANISM  Tupaia gracilis
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Scandentia; Tupaiidae;
+            Tupaia.
+REFERENCE   1  (bases 1 to 1632)
+  AUTHORS   Roberts,T.E., Lanier,H.C., Sargis,E.J. and Olson,L.E.
+  TITLE     Molecular phylogeny of treeshrews (Mammalia: Scandentia) and the
+            timescale of diversification in Southeast Asia
+  JOURNAL   Mol. Phylogenet. Evol. 60 (3), 358-372 (2011)
+   PUBMED   21565274
+REFERENCE   2  (bases 1 to 1632)
+  AUTHORS   Roberts,T.E., Lanier,H.C., Sargis,E.J. and Olson,L.E.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (08-APR-2011) University of Alaska Museum, 907 Yukon
+            Drive, Fairbanks, AK 99775, USA
+FEATURES             Location/Qualifiers
+     source          1..1632
+                     /organism="Tupaia gracilis"
+                     /organelle="mitochondrion"
+                     /mol_type="genomic DNA"
+                     /specimen_voucher="USNZ 109023"
+                     /db_xref="taxon:320342"
+                     /country="Malaysia: Sabah"
+     tRNA            1..66
+                     /product="tRNA-Val"
+     rRNA            67..1632
+                     /product="16S ribosomal RNA"
+ORIGIN      
+        1 caaaacgtag cttactcaaa agcatctggc ttacacccag aagacatcac ccaatgatcg
+       61 ttttgaactg accctagccc aagcacatat acacccaaca actacaaaca cctaaactaa
+      121 agcatttaat ttcaaagaag tataggagat agaaactaaa ctaaggcgct atagagaaag
+      181 taccgtaagg gaaagatgaa agatgaatca acagtaaaaa atagcaaaga ttaacccttg
+      241 taccttttgc ataatgaact agccagaaca attttagcaa agagacctga agttaaatat
+      301 cccgaaacca gacgagctac ttatgaacag ctaacagagc aaattcatct gtgttgcaaa
+      361 atagtgaagt gatttataag tagaggtgat aagccaaccg agcctggtga tagctggttg
+      421 tccagtacag aatcttagtt caactttaag ccctgcccga agaaccaata atccctatgc
+      481 agacttaaat gttaatctaa gggggtacag ctccttagaa ctaggtaaaa ccttatttag
+      541 agagtaagta tatatcgacc catagttggc tttaaagcag ccatcaattg agaaagcgtt
+      601 caagctcaac agtaaataat caccctaatt acatgtataa acatcaactc ctaaacccaa
+      661 actggaccaa tctacaacca tgtagatgag ttactgctag tatgagtaac aagaagtaat
+      721 tctccctgca caagcctata tcagaccgga tgcccactga tagttaacag tccaataaga
+      781 cttaagccaa acccaagaca cttattcaat taactgttga cccaacacag gagtgcaaag
+      841 cctaagggaa agatttaaag gagtaaaagg aactcggcaa acactaaccc cgcctgttta
+      901 ccaaaaacat cacctctagc atgaaaagta ttagaggcac tgcctgccca gtgacataag
+      961 ttaaacggcc gcggtatcct gaccgtgcaa aggtagcata atcatttgtt ccttaaatag
+     1021 ggacttgtat gaatggccac acgagggttt aactgtctct tactcccaat ccgtgaaatt
+     1081 gaccttccag tgaagaggct ggaatacatt aataagacga gaagacccta tggagcttta
+     1141 attaactaac tcacatatga ctaaacaaac ctaaaccagg gataaaaaac atattctgag
+     1201 ctagcaattt cggttggggt gacctcggag aataaaaaat cctccgaaag aacaagccta
+     1261 gacactacaa gtcaaagcaa ctaactatac aattgatcca acaagttgat caatggaacc
+     1321 agttacccta gggataacag cgcaatccta ttctagagtc catatcgaca atagggttta
+     1381 cgacctcgat gttggatcag gacatcccaa tggtgcaacc gctattaatg gttcgtttgt
+     1441 tcaacgatta aagtcctacg tgatctgagt tcagaccgga gtaatccagg tcggtttcta
+     1501 tctattagaa acccctccca gtacgaaagg acaagagggg taaggccaat acctcaagca
+     1561 cgccttgagc ttaatagatg aactcatctt aatctagtaa gtaatcacca accctgccca
+     1621 agagcagggc tt
+//
+
