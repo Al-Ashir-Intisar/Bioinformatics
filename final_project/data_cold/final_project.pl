@@ -1,11 +1,12 @@
-open(FH1, '>warm_blooded.xlsx');
-open(FH2, '>warm_blooded.txt');
+open(FH1, '>cold_blooded.xlsx');
+open(FH2, '>cold_blooded.txt');
 
 # List of GenBank files
 my @genbank_files = (
-    'Acinonyx jubatus.gb', 'Canis lupus.gb', 'Felis catus.gb', 'Pan troglodytes.gb', 'Tursiops truncatus.gb', 'Aptenodytes forsteri.gb', 'Equus caballus.gb',
-    'Gorilla gorilla.gb', 'Ursus arctos.gb', 'Bos taurus.gb', 'Equus zebra.gb', 'Loxodonta africana.gb', 'Physeter macrocephalus.gb', 
-    'Ursus maritimus.gb', 'Canis lupus familiaris.gb', 'Falco peregrinus.gb', 'Megaptera novaeangliae.gb', 'Psittacus erithacus.gb', 'Vulpes vulpes.gb'
+    'Agkistrodon contortrix.gb', 'Ambystoma mexicanum.gb', 'Crocodylus niloticus.gb', 'Eublepharis macularius.gb', 'Iguana iguana.gb', 'Python regius.gb', 
+    'Trachemys scripta elegans.gb', 'Aldabrachelys gigantea.gb', 'Boa constrictor.gb', 'Crocodylus rhombifer.gb', 'Geochelone elegans.gb',
+     'Ophiophagus hannah.gb', 'Sphenodon punctatus.gb', 'Varanus salvator.gb', 'Alligator mississippiensis.gb', 'Chlamydosaurus kingii.gb', 
+     'Crotalus adamanteus.gb', 'Heloderma suspectum.gb', 'Pogona vitticeps.gb', 'Teratoscincus keyserlingii.gb'
 );
 
 print FH1 "file_name\tGenus\tSpecies\ttype\tmtDNA_size\tmtDNA\n";
@@ -19,7 +20,7 @@ foreach my $genbank_file (@genbank_files) {
         my ($Genus, $Species, $Genome_size, $mtDNA) = separate($record);
 
         if ($Genus && $Species && $Genome_size) {
-            print FH1 "$full_path\t$Genus\t$Species\twarm_blooded\t$Genome_size\t$mtDNA\n";
+            print FH1 "$full_path\t$Genus\t$Species\tcold_blooded\t$Genome_size\t$mtDNA\n";
             print FH2 "$mtDNA\n\n";
         }
     }
