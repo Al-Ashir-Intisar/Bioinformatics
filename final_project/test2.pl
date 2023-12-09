@@ -1,34 +1,30 @@
-open(FH1, '>cold_blooded.xlsx');
-open(FH2, '>cold_blooded.txt');
+open(FH1, '>out.xls');
 
 # List of GenBank files
 my @genbank_files = (
-    'Agkistrodon contortrix.gb', 'Ambystoma mexicanum.gb', 'Crocodylus niloticus.gb', 'Eublepharis macularius.gb', 'Iguana iguana.gb', 'Python regius.gb', 
-    'Trachemys scripta elegans.gb', 'Aldabrachelys gigantea.gb', 'Boa constrictor.gb', 'Crocodylus rhombifer.gb', 'Geochelone elegans.gb',
-     'Ophiophagus hannah.gb', 'Sphenodon punctatus.gb', 'Varanus salvator.gb', 'Alligator mississippiensis.gb', 'Chlamydosaurus kingii.gb', 
-     'Crotalus adamanteus.gb', 'Heloderma suspectum.gb', 'Pogona vitticeps.gb', 'Teratoscincus keyserlingii.gb'
+    'Acinonyx jubatus.gb', 'Canis lupus.gb', 'Felis catus.gb', 'Pan troglodytes.gb', 'Tursiops truncatus.gb', 'Aptenodytes forsteri.gb', 'Equus caballus.gb',
+    'Gorilla gorilla.gb', 'Ursus arctos.gb', 'Bos taurus.gb', 'Equus zebra.gb', 'Loxodonta africana.gb', 'Physeter macrocephalus.gb', 
+    'Ursus maritimus.gb', 'Canis lupus familiaris.gb', 'Falco peregrinus.gb', 'Megaptera novaeangliae.gb', 'Psittacus erithacus.gb', 'Vulpes vulpes.gb'
 );
 
 print FH1 "file_name\tGenus\tSpecies\tmtDNA_size\ttRNA_starts\ttRNA_ends\trRNA_starts\trRNA_ends\tCDS_starts\tCDS_ends\tmtDNA\n";
-foreach my $genbank_file (@genbank_files) {
-    # Build the full path to the file
-    my $full_path = "$genbank_file";
 
-    open(GB, $full_path);
+my $full_path = "/workspaces/Bioinformatics/final_project/data_warm/Acinonyx jubatus.gb";
 
-    while (my $record = IRS(GB)) {
-        my ($Genus, $Species, $Genome_size, $mtDNA, $tRNA_starts, $tRNA_ends, $rRNA_starts, $rRNA_ends, $CDS_starts, $CDS_ends) = separate($record);
+open(GB, $full_path);
 
-        if ($Genus && $Species && $Genome_size && $mtDNA) {
-            print FH1 "$full_path\t$Genus\t$Species\t$Genome_size\t$tRNA_starts\t$tRNA_ends\t$rRNA_starts\t$rRNA_ends\t$CDS_starts\t$CDS_ends\t$mtDNA\n";
-        }
+while (my $record = IRS(GB)) {
+    my ($Genus, $Species, $Genome_size, $mtDNA, $tRNA_starts, $tRNA_ends, $rRNA_starts, $rRNA_ends, $CDS_starts, $CDS_ends) = separate($record);
+
+    if ($Genus && $Species && $Genome_size && $mtDNA) {
+        print FH1 "$full_path\t$Genus\t$Species\t$Genome_size\t$tRNA_starts\t$tRNA_ends\t$rRNA_starts\t$rRNA_ends\t$CDS_starts\t$CDS_ends\t$mtDNA\n";
     }
-
-    close(GB);
 }
 
+close(GB);
+
 close(FH1);
-close(FH2);
+
 sub IRS {
     my ($fg) = @_;
     local $/ = "//\n\n";  # Use local to avoid changing the global $/
@@ -84,4 +80,3 @@ sub separate {
 
     return ($genus, $species, $genome_size, $mtDNA, $tRNA_starts, $tRNA_ends, $rRNA_starts, $rRNA_ends, $CDS_starts, $CDS_ends);
 }
-
