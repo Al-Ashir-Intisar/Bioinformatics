@@ -1,0 +1,383 @@
+---
+title: "Bioinformatics Final Project"
+author: "Al Ashir Intisar"
+date: "12/6/2023"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+library(readr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(tidyr)
+
+#reading in the data scraped from GenBank file using perl 
+
+all_data <- read_tsv("~/Academic/Bio_391_perl/final_project/all_data.tsv") %>% 
+  mutate(file_name = paste(file_name, row_number())) #creating unique id
+
+```
+
+```{r}
+#finding statistical difference between Ectotherm and Endotherm complete mtDNA length
+
+model <- aov(mtDNA_size ~ factor(type), data = all_data) #using anova test
+summary(model)
+
+
+```
+
+
+```{r}
+#finding statistical difference between number of codons in coding regions (CDS) 
+#in mtDNA of Endotherm and Ectotherm
+
+model <- aov(str_count(CDS_string) ~ factor(type), data = all_data) #using anova test
+summary(model)
+
+
+```
+
+
+```{r}
+#calculating and creating new variable for the length of rRNA, tRNA, and Coding 
+#regions' codons
+
+#function to calculate length from the start and end positions of each regions in the #dataset
+calculate_total_length <- function(starts, ends) {
+  starts_numeric <- as.numeric(str_split(starts, "\\+")[[1]])
+  ends_numeric <- as.numeric(str_split(ends, "\\+")[[1]])
+  return(sum(ends_numeric - starts_numeric))
+}
+
+#creating the variables
+all_lengths <- all_data %>% 
+  mutate(CDS_length = str_count(CDS_string)) %>% 
+  rowwise() %>%
+  mutate(
+    tRNA_length = calculate_total_length(c_across(starts_with("tRNA_starts")), c_across(starts_with("tRNA_ends"))),
+    rRNA_length = calculate_total_length(c_across(starts_with("rRNA_starts")), c_across(starts_with("rRNA_ends")))
+  ) 
+
+```
+
+
+
+```{r}
+#finding statistical difference between rRNA length in mtDNA 
+#of Endotherm and Ectotherm
+
+model <- aov(rRNA_length ~ factor(type), data = all_lengths) #using anova test
+summary(model)
+
+
+```
+
+
+
+```{r}
+#finding statistical difference between tRNA length in mtDNA 
+#of Endotherm and Ectotherm
+
+model <- aov(tRNA_length ~ factor(type), data = all_lengths) #using anova test
+summary(model)
+
+```
+
+
+
+```{r}
+#finding the correlation between mtDNA size againts CDS codons, rRNA, and tRNA sizes  
+
+#graphing the correlation 
+all_lengths %>% 
+  mutate(type = ifelse(type == "cold", "Ectotherm", "Endotherm")) %>% 
+  pivot_longer(cols = c(CDS_length, tRNA_length, rRNA_length), names_to = "sequence_type", values_to = "Value") %>% 
+  ggplot(aes(x = mtDNA_size, y = Value, color = type)) +
+  geom_point() +
+  facet_wrap(~sequence_type, scales = "free_y", ncol = 2) +
+  labs(y = "Combined number of bases in rRNA/tRNA/number of codons in CDS", x = "Complete mitochondrial DNA size/number of bases", color = "Thermoregularity")
+  
+
+#getting rid of the NA values for tRNA and rRNA 
+cor_data <- all_lengths %>% 
+  drop_na(CDS_length, tRNA_length, rRNA_length)
+
+#getting the correlation coefficients
+correlation1 <- cor(cor_data$mtDNA_size, cor_data$CDS_length)
+correlation2 <- cor(cor_data$mtDNA_size, cor_data$rRNA_length)
+correlation3 <- cor(cor_data$mtDNA_size, cor_data$tRNA_length)
+
+#printing the correlation coeffcients
+cat("Correlation Coefficient mtDNA length ~ Coding region codons:", correlation1, "\n", "Correlation Coefficient mtDNA length ~ rRNA length:", correlation2, "\n", "Correlation Coefficient mtDNA length ~ tRNA length:", correlation3, "\n")
+
+```
+
+
+
+```{r}
+library(tidyr)
+
+#calculating the percent of each amino acid produced from the entire coding region 
+# of each sample mtDNA
+
+
+#function to find the frequency of each amino acid produced from the CDS region of the #sequence
+process_rows_df <- function(data) {
+  rows_df <- data.frame(file_name = character(0))
+
+  for (i in seq_len(nrow(data))) {
+    current_row <- data[i, , drop = FALSE]
+
+    name <- current_row[["file_name"]]
+    type <- current_row[["type"]]
+
+    amino_acid_freq <- table(strsplit(current_row[["CDS_string"]], NULL))
+
+    amino_acid_freq_df <- as.data.frame(amino_acid_freq) %>%
+      pivot_wider(names_from = Var1, values_from = Freq) %>%
+      mutate(file_name = name, .before = 1) %>%
+      mutate(type = type, .before = 2)
+
+    suppressMessages({
+      rows_df <- full_join(rows_df, amino_acid_freq_df)
+    })
+  }
+
+  return(rows_df)
+}
+
+#calculating the number of each amino acid produced from the entire coding region 
+# of each sample mtDNA and storing it in all_amino_acids
+
+all_amino_acids <-  all_lengths%>% 
+  drop_na(CDS_string) %>% 
+  process_rows_df() %>% 
+  mutate(type = as.factor(type)) %>% 
+  rename(plus = `+`) %>% 
+  full_join(all_lengths, by = "file_name") %>% 
+  mutate(type = type.x) %>% 
+  select(-c(type.x, type.y)) %>% 
+  mutate(type = ifelse(type == "cold", "Ectotherm", "Endotherm")) 
+
+#calculating the percent of each amino acid from each CDS
+all_data_complete <- all_amino_acids %>% 
+  drop_na(CDS_length) %>% 
+  mutate(across(A:X, ~ ./(CDS_length - plus)*100))
+
+```
+
+
+
+```{r}
+#creating a decision tree model to find out which amino acid are most different in 
+#determining thermoregulatory (Endotherm, Ectotherm) type 
+
+
+#preparing data for training and testing 
+
+model1_data <- all_data_complete %>% 
+  mutate(type = as.factor(type)) %>% 
+  select(c(type, A, C, D, E, F, G, H, I, K, L, M, N, P, Q, R, S, T, V, W, Y, X))
+
+
+#shuffling the dataset for creating a model
+
+set.seed(1234)
+shuffled_index1 <- sample(seq_len(nrow(model1_data)))
+
+shuffled_df1 <- model1_data[shuffled_index1, ]
+
+set.seed(2022)
+train_index1 <- sample(seq_len(nrow(shuffled_df1)), 0.8 * nrow(shuffled_df1)) 
+
+train_set1 <- shuffled_df1[train_index1, ]
+test_set1 <- shuffled_df1[-train_index1, ]
+```
+
+
+```{r}
+library(rpart)
+library(rpart.plot)
+library(tidymodels)
+library(dslabs)
+#creating a decision tree model
+
+tree_model1 <-
+  decision_tree(tree_depth=3) %>%
+  set_mode("classification") %>%
+  set_engine("rpart")
+
+tree_recipe1 <- recipe(type ~ ., data=train_set1)
+
+tree_wflow1 <- workflow() %>%
+    add_recipe(tree_recipe1) %>%
+    add_model(tree_model1) 
+
+tree_fit1  <- fit(tree_wflow1, train_set1)
+
+#printing the accuracy
+augment(tree_fit1, test_set1) %>%
+  accuracy(truth=type, estimate=.pred_class)
+
+#printing the confusion matrix
+augment(tree_fit1, test_set1) %>%
+  conf_mat(truth=type, estimate=.pred_class)
+
+#printing the decision tree
+tree_fit1 %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint=FALSE)
+
+
+```
+
+
+
+```{r}
+#printing out the percent of amino acids in the decisoin tree against mtDNA size
+#to observe their distribution 
+
+all_data_complete %>% 
+  pivot_longer(cols = c(Q, Y, L), names_to = "Amino_Acid", values_to = "Value") %>% 
+  ggplot(aes(x = mtDNA_size, y = Value, color = type)) +
+  geom_point() +
+  facet_wrap(~Amino_Acid, scales = "free_y", ncol = 2) +
+  labs(y = "Percent of the amino acid in CDS", x = "Complete mitochondrial DNA length/size", color = "Thermoregularity") 
+
+
+#finding statistical difference between Tyrosine(Y) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(Y ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+#finding statistical difference between Glutamine(Q) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(Q ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+#finding statistical difference between Leucine(L) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(L ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+```
+
+
+
+```{r}
+#creating decision tree including the tRNA, rRNA, CDS length 
+
+#preparing data for training and testing 
+
+model2_data <- all_data_complete %>% 
+  mutate(type = as.factor(type)) %>% 
+  select(c(type, A, C, D, E, F, G, H, I, K, L, M, N, P, Q, R, S, T, V, W, Y, X, rRNA_length, tRNA_length, CDS_length))
+
+
+#shuffling the dataset for creating a model
+
+set.seed(12345)
+shuffled_index2 <- sample(seq_len(nrow(model2_data)))
+
+shuffled_df2 <- model2_data[shuffled_index2, ]
+
+set.seed(2022)
+train_index2 <- sample(seq_len(nrow(shuffled_df2)), 0.8 * nrow(shuffled_df2)) 
+
+train_set2 <- shuffled_df2[train_index2, ]
+test_set2 <- shuffled_df2[-train_index2, ]
+
+
+library(rpart)
+library(rpart.plot)
+library(tidymodels)
+library(dslabs)
+
+#creating a decision tree model
+
+tree_model2 <-
+  decision_tree(tree_depth=3) %>%
+  set_mode("classification") %>%
+  set_engine("rpart")
+
+tree_recipe2 <- recipe(type ~ ., data=train_set2)
+
+tree_wflow2 <- workflow() %>%
+    add_recipe(tree_recipe2) %>%
+    add_model(tree_model2) 
+
+tree_fit2  <- fit(tree_wflow2, train_set2)
+
+#printing the accuracy
+augment(tree_fit2, test_set2) %>%
+  accuracy(truth=type, estimate=.pred_class)
+
+#printing the confusion matrix
+augment(tree_fit2, test_set2) %>%
+  conf_mat(truth=type, estimate=.pred_class)
+
+#printing the decision tree
+tree_fit2 %>%
+  extract_fit_engine() %>%
+  rpart.plot(roundint=FALSE)
+
+```
+
+
+
+```{r}
+all_data_complete %>% 
+  pivot_longer(cols = c(Q, Y, L, V), names_to = "Amino_Acid", values_to = "Value") %>% 
+  ggplot(aes(x = mtDNA_size, y = Value, color = type)) +
+  geom_point() +
+  facet_wrap(~Amino_Acid, scales = "free_y", ncol = 2) +
+  labs(y = "Percent of the amino acid in CDS", x = "Complete mitochondrial DNA length/size", color = "Thermoregularity") 
+
+
+#finding statistical difference between Tyrosine(Y) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(Y ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+#finding statistical difference between Glutamine(Q) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(Q ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+#finding statistical difference between Leucine(L) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(L ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+
+#finding statistical difference between Valine(V) percent in CDS 
+#of Endotherm and Ectotherm
+
+model <- aov(V ~ factor(type), data = all_data_complete) #using anova test
+summary(model)
+
+```
+
+
+```{r}
+
+write.csv(all_data_complete, "~/Academic/Bio_391_perl/final_project/Project_data.csv")
+```
+
