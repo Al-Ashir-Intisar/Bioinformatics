@@ -341,7 +341,7 @@ tree_fit2 %>%
 
 ```{r}
 all_data_complete %>% 
-  pivot_longer(cols = c(Q, Y, L, V), names_to = "Amino_Acid", values_to = "Value") %>% 
+  pivot_longer(cols = c(Q, Y, L, K), names_to = "Amino_Acid", values_to = "Value") %>% 
   ggplot(aes(x = mtDNA_size, y = Value, color = type)) +
   geom_point() +
   facet_wrap(~Amino_Acid, scales = "free_y", ncol = 2) +
@@ -363,7 +363,7 @@ summary(model)
 #finding statistical difference between Leucine(L) percent in CDS 
 #of Endotherm and Ectotherm
 
-model <- aov(L ~ factor(type), data = all_data_complete) #using anova test
+model <- aov(V ~ factor(type), data = all_data_complete) #using anova test
 summary(model)
 
 
@@ -378,6 +378,177 @@ summary(model)
 
 ```{r}
 
-write.csv(all_data_complete, "~/Academic/Bio_391_perl/final_project/Project_data.csv")
+#write.csv(all_data_complete, "~/Academic/Bio_391_perl/final_project/Project_data.csv")
 ```
+
+
+
+```{r}
+#function to get the locations of each codons producing Glutamine, Tyrosine, and Valine
+
+
+find_indices_in_dataset <- function(dataset) {
+  for (letter in c("Y", "V", "Q")) {
+    indices_list <- list()
+
+    for (row_index in 1:nrow(dataset)) {
+      cds_string <- dataset$CDS_string[row_index]
+      indices <- which(strsplit(cds_string, NULL)[[1]] == letter)
+      indices_list[[row_index]] <- ifelse(length(indices) > 0, paste(indices, collapse = ","), NA)
+    }
+
+    dataset[[paste0("Indices_", letter)]] <- indices_list
+  }
+
+  return(dataset)
+}
+
+
+
+all_locations <- find_indices_in_dataset(all_data_complete)
+
+
+
+```
+
+
+
+
+
+```{r}
+#seperating ectotherms and endotherms 
+
+ectotherm_locations <- all_locations %>% 
+  filter(mtDNA_size > 14000) %>% 
+  select(type, Indices_Q, Indices_Y, Indices_V) %>% 
+  filter(type == "Ectotherm") 
+  
+endotherm_locations <- all_locations %>% 
+  filter(mtDNA_size > 14000) %>% 
+  select(type, Indices_Q, Indices_Y, Indices_V) %>% 
+  filter(type == "Endotherm")
+```
+
+
+
+
+```{r}
+#extracting the locations of Glutamine producing codons within the in the coding region
+endotherm_hist_dataQ <- numeric()
+
+for (i in seq_along(endotherm_locations$Indices_Q)) {
+  temp <- endotherm_locations$Indices_Q[[i]]
+  list_numeric <- as.numeric(unlist(strsplit(temp, ",")))
+  endotherm_hist_dataQ <- c(endotherm_hist_dataQ, list_numeric)
+  
+}
+
+ectotherm_hist_dataQ <- numeric()
+
+for (i in seq_along(ectotherm_locations$Indices_Q)) {
+  temp <- ectotherm_locations$Indices_Q[[i]]
+  list_numeric <- as.numeric(unlist(strsplit(temp, ",")))
+  ectotherm_hist_dataQ <- c(ectotherm_hist_dataQ, list_numeric)
+  
+}
+
+
+hist1 <- hist(endotherm_hist_dataQ, breaks = 33, col = rgb(1,0,0,0.5), main = "Histogram of Locations of Codons producing Glutamine", xlab = "Location of codons in coding region (each unit represent single codon = 3 bases)", ylab = "Number of Glutamine proding codons in each 33 codon bins")
+hist1$counts <- hist1$counts/115 #sample size 115
+
+hist2 <- hist(ectotherm_hist_dataQ, breaks = 33, add = TRUE, col = rgb(0,0,1,0.5))
+hist2$counts <- hist2$counts/61 #sample size 61
+
+
+barplot(hist1$counts, col = rgb(1, 0, 0, 0.5), main = "Histogram of Locations of Codons Producing Glutamine",
+        xlab = "Location of Codons in Coding Region (each bin = 33 codon = 33*3 bases)",
+        ylab = "Average Number of Glutamine Producing Codons in each 33 Codon Bins",
+        ylim = c(0, max(c(max(hist1$counts), max(hist2$counts)))))
+barplot(hist2$counts, col = rgb(0, 0, 1, 0.5), add = TRUE)
+legend("topright", legend = c("Endotherms", "Ectotherms"), fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
+```
+
+
+
+
+
+```{r}
+#extracting the locations of Tyrosine producing codons within the in the coding region
+endotherm_hist_dataY <- numeric()
+
+for (i in seq_along(endotherm_locations$Indices_Y)) {
+  temp <- endotherm_locations$Indices_Y[[i]]
+  list_numeric <- as.numeric(unlist(strsplit(temp, ",")))
+  endotherm_hist_dataY <- c(endotherm_hist_dataY, list_numeric)
+  
+}
+
+ectotherm_hist_dataY <- numeric()
+
+for (i in seq_along(ectotherm_locations$Indices_Y)) {
+  temp <- ectotherm_locations$Indices_Y[[i]]
+  list_numeric <- as.numeric(unlist(strsplit(temp, ",")))
+  ectotherm_hist_dataY <- c(ectotherm_hist_dataY, list_numeric)
+  
+}
+
+#creating the histogram for tyrosine
+hist1 <- hist(endotherm_hist_dataY, breaks = 33, col = rgb(1,0,0,0.5), main = "Histogram of Locations of Codons producing Tyrosine", xlab = "Location of codons in coding region (each unit represent single codon = 3 bases)", ylab = "Number of Tyrosine proding codons in each 33 codon bins")
+hist1$counts <- hist1$counts/115
+
+hist2 <- hist(ectotherm_hist_dataY, breaks = 33, add = TRUE, col = rgb(0,0,1,0.5))
+hist2$counts <- hist2$counts/61
+
+
+barplot(hist1$counts, col = rgb(1, 0, 0, 0.5), main = "Histogram of Locations of Codons Producing Tyrosine",
+        xlab = "Location of Codons in Coding Region (each bin = 33 codon = 33*3 bases)",
+        ylab = "Average Number of Tyrosine Producing Codons in each 33 Codon Bins",
+        ylim = c(0, max(c(max(hist1$counts), max(hist2$counts)))))
+barplot(hist2$counts, col = rgb(0, 0, 1, 0.5), add = TRUE)
+legend("topright", legend = c("Endotherms", "Ectotherms"), fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
+```
+
+
+
+
+
+```{r}
+#extracting the locations of valine producing codons within the in the coding region
+endotherm_hist_dataV <- numeric()
+
+for (i in seq_along(endotherm_locations$Indices_V)) {
+  temp <- endotherm_locations$Indices_V[[i]]
+  list_numeric <- as.numeric(unlist(strsplit(temp, ",")))
+  endotherm_hist_dataV <- c(endotherm_hist_dataV, list_numeric)
+  
+}
+
+ectotherm_hist_dataV <- numeric()
+
+for (i in seq_along(ectotherm_locations$Indices_V)) {
+  temp <- ectotherm_locations$Indices_V[[i]]
+  list_numeric <- as.numeric(unlist(strsplit(temp, ",")))
+  ectotherm_hist_dataV <- c(ectotherm_hist_dataV, list_numeric)
+  
+}
+
+#creating the histogram for valine
+hist1 <- hist(endotherm_hist_dataV, breaks = 33, col = rgb(1,0,0,0.5), main = "Histogram of Locations of Codons producing Valine", xlab = "Location of codons in coding region (each unit represent single codon = 3 bases)", ylab = "Number of Valine proding codons in each 33 codon bins")
+hist1$counts <- hist1$counts/115
+
+hist2 <- hist(ectotherm_hist_dataY, breaks = 33, add = TRUE, col = rgb(0,0,1,0.5))
+hist2$counts <- hist2$counts/61
+
+
+barplot(hist1$counts, col = rgb(1, 0, 0, 0.5), main = "Histogram of Locations of Codons Producing Valine",
+        xlab = "Location of Codons in Coding Region (each bin = 33 codon = 33*3 bases)",
+        ylab = "Average Number of Valine Producing Codons in each 33 Codon Bins",
+        ylim = c(0, max(c(max(hist1$counts), max(hist2$counts)))))
+barplot(hist2$counts, col = rgb(0, 0, 1, 0.5), add = TRUE)
+legend("topright", legend = c("Endotherms", "Ectotherms"), fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
+
+
+```
+
+
 
